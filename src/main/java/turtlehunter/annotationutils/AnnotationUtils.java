@@ -29,8 +29,8 @@ public class AnnotationUtils {
         return this;
     }
 
-    public AnnotationUtils fromClassLoader(ClassLoader classLoader) {
-        configurationBuilder.addUrls(((URLClassLoader) classLoader).getURLs()).addClassLoader(classLoader);
+    public AnnotationUtils fromClassLoader(URLClassLoader classLoader) {
+        configurationBuilder.addUrls(classLoader.getURLs()).addClassLoader(classLoader);
         return this;
     }
 
