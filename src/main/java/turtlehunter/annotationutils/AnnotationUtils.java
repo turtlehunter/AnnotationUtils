@@ -6,9 +6,11 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Set;
 
 public class AnnotationUtils {
@@ -28,7 +30,7 @@ public class AnnotationUtils {
     }
 
     public AnnotationUtils fromClassLoader(ClassLoader classLoader) {
-        configurationBuilder.addClassLoader(classLoader);
+        configurationBuilder.addUrls(((URLClassLoader) classLoader).getURLs()).addClassLoader(classLoader);
         return this;
     }
 
