@@ -3,11 +3,9 @@ package turtlehunter.annotationutils;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.scanners.MethodAnnotationsScanner;
-import org.reflections.scanners.MethodParameterScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -15,10 +13,9 @@ import java.util.Set;
 
 public class AnnotationUtils {
 
-    private Annotation annotation;
+    private Class annotation;
     private ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
     private boolean useAnnotation = false;
-    private boolean useParameters = false;
     private String packageName;
 
     public AnnotationUtils() {
@@ -45,10 +42,9 @@ public class AnnotationUtils {
         return this;
     }
 
-    public AnnotationUtils forAnnotation(Annotation annotation) {
+    public AnnotationUtils forAnnotation(Class annotation) {
         this.annotation = annotation;
         this.useAnnotation = true;
-        this.useParameters = false;
         return this;
     }
 
@@ -57,17 +53,11 @@ public class AnnotationUtils {
         return this;
     }
 
-    public void forParameters() {
-        this.useParameters = true;
-        this.useAnnotation = false;
-    }
-
     public Set<Method> getMethods() {
         if(useAnnotation) {
             return new Reflections(configurationBuilder.setScanners(new MethodAnnotationsScanner())).getMethodsAnnotatedWith(annotation);
-        } else {
-            return new Reflections(configurationBuilder.setScanners(new MethodParameterScanner())).getMethodsAnnotatedWith(annotation);
         }
+        return null;
     }
 
     public Set<Class<?>> getClasses() {
